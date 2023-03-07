@@ -7,6 +7,18 @@ const Options = () => {
   const [like, setLike] = useState<boolean>(false);
 
   useEffect(() => {
+    chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
+      const tab = tabs[0];
+      if (!tab) return console.error("tab not found");
+      const u = new URL(tab.url as string);
+      chrome.cookies.getAll({ domain: u.hostname }).then((res) => {
+        console.log("cookie", res);
+      });
+    });
+
+    chrome.cookies.getAll({}).then((res) => {
+      console.log("res");
+    });
     // Restores select box and checkbox state using the preferences
     // stored in chrome.storage.
     chrome.storage.sync.get(
@@ -42,7 +54,8 @@ const Options = () => {
   return (
     <>
       <div>
-        Favorite color: <select
+        Favorite color:{" "}
+        <select
           value={color}
           onChange={(event) => setColor(event.target.value)}
         >

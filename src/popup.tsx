@@ -1,23 +1,46 @@
-import React, { useEffect, useState } from "react";
-import ReactDOM from "react-dom";
+import React, { HTMLProps, useEffect, useState } from "react";
+import ReactDOM from "react-dom/client";
+import styled from "styled-components";
+import { SchemaYapi } from "./pages/SchemaYapi";
+import { Json2dts } from "./pages/Json2dts";
+import { ConfigProvider, Button, Menu } from "antd";
+import {
+  AppstoreOutlined,
+  MailOutlined,
+  SettingOutlined,
+} from "@ant-design/icons";
+import "antd/dist/reset.css";
+
+const RootDiv: React.ElementType<HTMLProps<HTMLDivElement>> = styled.div`
+  width: 400px;
+  height: 300px;
+  .page-box {
+    padding: 12px 0;
+  }
+` as any;
 
 const Popup = () => {
   const [count, setCount] = useState(0);
-  const [currentURL, setCurrentURL] = useState<string>();
+  const [activeKey, setActiveKey] = React.useState<string>("yapi");
 
   useEffect(() => {
     chrome.action.setBadgeText({ text: count.toString() });
   }, [count]);
+  useEffect(function () {}, []);
 
   useEffect(() => {
     chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {
-      setCurrentURL(tabs[0].url);
+      const b = tabs[0];
+      window._yapi_host = new URL(b.url).hostname;
+      // setCurrentURL(tabs[0].url);
     });
+    console.log("url", window.location.hostname);
   }, []);
 
   const changeBackground = () => {
     chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {
       const tab = tabs[0];
+      console.log("send");
       if (tab.id) {
         chrome.tabs.sendMessage(
           tab.id,
@@ -31,27 +54,48 @@ const Popup = () => {
       }
     });
   };
+  const pageList = [
+    {
+      label: "yapi接口生成",
+      key: "yapi",
+      icon: <MailOutlined />,
+      page: SchemaYapi,
+    },
+    {
+      label: "json转ts定义",
+      key: "json2dts",
+      icon: <MailOutlined />,
+      page: Json2dts,
+    },
+  ];
+
+  const target = pageList.find((p) => p.key === activeKey);
+  const Page: any = target?.page;
 
   return (
-    <>
-      <ul style={{ minWidth: "700px" }}>
-        <li>Current URL: {currentURL}</li>
-        <li>Current Time: {new Date().toLocaleTimeString()}</li>
-      </ul>
-      <button
-        onClick={() => setCount(count + 1)}
-        style={{ marginRight: "5px" }}
-      >
-        count up
-      </button>
-      <button onClick={changeBackground}>change background</button>
-    </>
+    <RootDiv>
+      <Menu
+        items={pageList}
+        activeKey={activeKey}
+        onClick={(e) => {
+          setActiveKey(e.key);
+        }}
+        mode={"horizontal"}
+      />
+      <div className={"page-box"}>
+        <Page />
+      </div>
+    </RootDiv>
   );
 };
 
-ReactDOM.render(
+ReactDOM.createRoot(
+  document.getElementById("root") ?? document.body,
+  {}
+).render(
   <React.StrictMode>
-    <Popup />
-  </React.StrictMode>,
-  document.getElementById("root")
+    <ConfigProvider>
+      <Popup />
+    </ConfigProvider>
+  </React.StrictMode>
 );
