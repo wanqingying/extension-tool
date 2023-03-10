@@ -12,6 +12,10 @@ function parseObj(obj: any): string {
     if (obj.length === 0) return "Array<any>";
     return `Array<${parseObj(obj[0])}>`;
   }
+  if (obj === null) {
+    return `any`;
+  }
+
   if (typeof obj === "object") {
     const ets = Array.from(Object.entries(obj));
     return `{

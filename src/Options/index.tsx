@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import ReactDOM from "react-dom";
 
-const Options = () => {
+const Index = () => {
   const [color, setColor] = useState<string>("");
   const [status, setStatus] = useState<string>("");
   const [like, setLike] = useState<boolean>(false);
@@ -83,7 +83,7 @@ const Options = () => {
 
 ReactDOM.render(
   <React.StrictMode>
-    <Options />
+    <Index />
   </React.StrictMode>,
   document.getElementById("root")
 );

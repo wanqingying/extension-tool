@@ -19,7 +19,7 @@ const RootDiv: React.ElementType<HTMLProps<HTMLDivElement>> = styled.div`
   }
 ` as any;
 
-const Popup = () => {
+const Index = () => {
   const [count, setCount] = useState(0);
   const [activeKey, setActiveKey] = React.useState<string>("yapi");
 
@@ -35,6 +35,7 @@ const Popup = () => {
       // setCurrentURL(tabs[0].url);
     });
     console.log("url", window.location.hostname);
+    chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {});
   }, []);
 
   const changeBackground = () => {
@@ -71,7 +72,7 @@ const Popup = () => {
 
   const target = pageList.find((p) => p.key === activeKey);
   const Page: any = target?.page;
-
+  console.log("page ", target.key);
   return (
     <RootDiv>
       <Menu
@@ -89,13 +90,14 @@ const Popup = () => {
   );
 };
 
+console.log("ReactDOM.createRoot", document.getElementById("root"));
 ReactDOM.createRoot(
   document.getElementById("root") ?? document.body,
   {}
 ).render(
   <React.StrictMode>
     <ConfigProvider>
-      <Popup />
+      <Index />
     </ConfigProvider>
   </React.StrictMode>
 );
