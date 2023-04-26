@@ -45,7 +45,7 @@ export const SchemaYapi: FC<IProps> = function (props) {
           handleLoad();
         }}
       >
-        加载接口
+        扫描页面
       </Button>
     </RootDiv>
   );

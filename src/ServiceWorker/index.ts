@@ -12,8 +12,7 @@ chrome.runtime.onInstalled.addListener(() => {
   console.log("chrome.runtime.onInstalled");
 });
 
-
-console.log('create dev tool')
+//
 // chrome.devtools.panels.create(
 //     "MyDevToolPane",
 //     "icon48.png",

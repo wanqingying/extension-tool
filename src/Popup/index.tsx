@@ -3,6 +3,8 @@ import ReactDOM from "react-dom/client";
 import styled from "styled-components";
 import { SchemaYapi } from "./pages/SchemaYapi";
 import { Json2dts } from "./pages/Json2dts";
+import { Wiki } from "./pages/ARK/Wiki";
+
 import { ConfigProvider, Button, Menu } from "antd";
 import {
   AppstoreOutlined,
@@ -21,7 +23,7 @@ const RootDiv: React.ElementType<HTMLProps<HTMLDivElement>> = styled.div`
 
 const Index = () => {
   const [count, setCount] = useState(0);
-  const [activeKey, setActiveKey] = React.useState<string>("yapi");
+  const [activeKey, setActiveKey] = React.useState<string>("wiki");
 
   useEffect(() => {
     chrome.action.setBadgeText({ text: count.toString() });
@@ -57,6 +59,12 @@ const Index = () => {
   };
   const pageList = [
     {
+      label: "wiki",
+      key: "wiki",
+      icon: <MailOutlined />,
+      page: Wiki,
+    },
+    {
       label: "yapi接口生成",
       key: "yapi",
       icon: <MailOutlined />,
@@ -65,6 +73,18 @@ const Index = () => {
     {
       label: "json转ts定义",
       key: "json2dts",
+      icon: <MailOutlined />,
+      page: Json2dts,
+    },
+    {
+      label: "泳道助手",
+      key: "json2dts2",
+      icon: <MailOutlined />,
+      page: Json2dts,
+    },
+    {
+      label: "网关同步助手",
+      key: "json2dts3",
       icon: <MailOutlined />,
       page: Json2dts,
     },

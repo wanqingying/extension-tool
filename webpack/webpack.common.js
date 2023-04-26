@@ -9,6 +9,7 @@ module.exports = {
     options: path.join(srcDir, "Options/index.tsx"),
     background: path.join(srcDir, "ServiceWorker/index.ts"),
     content_script: path.join(srcDir, "ContentScript/index.tsx"),
+    wiki_trans: path.join(srcDir, "ContentScript/trans.ts"),
     dev_tool: path.join(srcDir, "DevTool/devtools.ts"),
   },
   output: {

@@ -12,10 +12,21 @@ var page_getProperties = function () {
 };
 
 chrome.devtools.network.onRequestFinished.addListener(function (request) {
-  console.log("request", request.response.status);
+  // console.log("request", request.response.status);
 });
 
-
+chrome.devtools.network.onRequestFinished.addListener((request) => {
+  console.log("onRequestFinished", request.response.content.text);
+});
+chrome.devtools.panels.create(
+  "MyDevPanel2",
+  "icon48.png",
+  "devtools.html",
+  (panel) => {
+    console.log("create dev panel", panel);
+  }
+);
+console.log('document',document.body)
 chrome.devtools.panels.elements.createSidebarPane(
   "MyDevTool",
   function (sidebar) {
