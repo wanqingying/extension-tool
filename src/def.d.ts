@@ -28,3 +28,10 @@ declare namespace extension {
     }
   }
 }
+
+declare namespace wiki {
+  export interface DinoNm {
+    en: string[];
+    cn: string;
+  }
+}

@@ -1,6 +1,6 @@
 // import { name_trans } from "./data";
 
-export function trans(name_trans) {
+export function transSaddle(name_trans: wiki.DinoNm[]) {
   const items = document.querySelectorAll(
     ".loottable .tabber--live .itemlist li"
   );
@@ -18,7 +18,7 @@ export function trans(name_trans) {
       if (label.includes("Saddle")) {
         const [sp, k] = label.split(" ");
         const trans = name_trans.find((t) => {
-          return t.en.toLowerCase().includes(sp.toLowerCase());
+          return t.en.some((en) => en.toLowerCase().includes(sp.toLowerCase()));
         });
         console.log("trnas", trans);
         if (!trans) return;
@@ -43,4 +43,33 @@ export function trans(name_trans) {
   });
   console.log("items", result);
   return result;
+}
+
+export function transDino(trans: wiki.DinoNm[]) {
+  const t = Date.now().valueOf();
+  const name_trans = new Map<string, string>();
+  trans.forEach((t) => {
+    t.en.forEach((en) => name_trans.set(en, t.cn));
+  });
+  function traverse(node: HTMLElement) {
+    transNode(node);
+    node.childNodes.forEach(transNode);
+
+    if (node.hasChildNodes()) {
+      Array.from(node.children).forEach(traverse);
+    }
+  }
+  function transNode(node: ChildNode) {
+    if (node.nodeType !== 3) return;
+    // @ts-ignore
+
+    const txt = node.data || "";
+
+    if (name_trans.get(txt.trim().toLowerCase())) {
+      // @ts-ignore
+
+      node.data = name_trans.get(txt.trim().toLowerCase());
+    }
+  }
+  traverse(document.body);
 }
