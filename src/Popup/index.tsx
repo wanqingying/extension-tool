@@ -30,20 +30,24 @@ const RootApp = () => {
   }, [count]);
   useEffect(function () {
     const cha = new BroadcastChannel("devtool_and_kit_chn");
-    console.log('BroadcastChannel init')
+    console.log("BroadcastChannel init");
     cha.addEventListener("message", (e) => {
       console.log("BroadcastChannel", e.data);
     });
 
-    chrome.runtime.onMessage.addListener(
-        function(request, sender, sendResponse) {
-          console.log(sender.tab ?
-              "from a content script:" + sender.tab.url :
-              "from the extension");
-          if (request.greeting === "hello")
-            sendResponse({farewell: "goodbye"});
-        }
-    );
+    chrome.runtime.onMessage.addListener(function (
+      request,
+      sender,
+      sendResponse
+    ) {
+      console.log(
+        sender.tab
+          ? "from a content script:" + sender.tab.url
+          : "from the extension"
+      );
+      if (request.greeting === "hello" && request.tag === "2popup")
+        sendResponse({ farewell: "goodbye", sendBy: "popup" });
+    });
   }, []);
 
   useEffect(() => {

@@ -2,6 +2,7 @@ declare interface Window {
   _yapi_cookie: any;
   _yapi_url: any;
   _yapi_host: any;
+  _foo: any;
 }
 // declare var Window{
 //
@@ -33,5 +34,21 @@ declare namespace wiki {
   export interface DinoNm {
     en: string[];
     cn: string;
+  }
+}
+
+declare namespace ext {
+  export interface HttpRecord {
+    url: string;
+    method: string;
+    version: number;
+    timestamp: number;
+    response: any;
+    headersReq: Array<{ name: string; value: any }>;
+    headersRes: Array<{ name: string; value: any }>;
+    cookies: chrome.cookies.Cookie[];
+    bodySize: number;
+    status: any;
+    _contentType: any;
   }
 }

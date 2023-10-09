@@ -12,6 +12,7 @@ module.exports = {
     content_script: path.join(srcDir, "ContentScript/index.tsx"),
     wiki_trans: path.join(srcDir, "ContentScript/trans.ts"),
     dev_tool: path.join(srcDir, "DevTool/index.tsx"),
+    dev_tool_script: path.join(srcDir, "DevTool/devtool.ts"),
   },
   output: {
     path: path.join(__dirname, "../dist/js"),
