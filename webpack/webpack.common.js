@@ -1,6 +1,7 @@
 const webpack = require("webpack");
 const path = require("path");
 const CopyPlugin = require("copy-webpack-plugin");
+const EncodingPlugin = require("webpack-encoding-plugin");
 const srcDir = path.join(__dirname, "..", "src");
 
 module.exports = {
@@ -10,7 +11,7 @@ module.exports = {
     background: path.join(srcDir, "ServiceWorker/index.ts"),
     content_script: path.join(srcDir, "ContentScript/index.tsx"),
     wiki_trans: path.join(srcDir, "ContentScript/trans.ts"),
-    dev_tool: path.join(srcDir, "DevTool/devtools.ts"),
+    dev_tool: path.join(srcDir, "DevTool/index.tsx"),
   },
   output: {
     path: path.join(__dirname, "../dist/js"),
@@ -27,7 +28,7 @@ module.exports = {
   module: {
     rules: [
       {
-        test: /\.tsx?$/,
+        test: /.*\.tsx?$/,
         use: "ts-loader",
         exclude: /node_modules/,
       },
@@ -41,6 +42,9 @@ module.exports = {
     new CopyPlugin({
       patterns: [{ from: ".", to: "../", context: "public" }],
       options: {},
+    }),
+    new EncodingPlugin({
+      encoding: "utf-8",
     }),
   ],
 };

@@ -4,6 +4,7 @@ import styled from "styled-components";
 import { SchemaYapi } from "./pages/SchemaYapi";
 import { Json2dts } from "./pages/Json2dts";
 import { Wiki } from "./pages/ARK/Wiki";
+import { EditorExample } from "./editor/Example";
 
 import { ConfigProvider, Button, Menu } from "antd";
 import {
@@ -16,6 +17,9 @@ import "antd/dist/reset.css";
 const RootDiv: React.ElementType<HTMLProps<HTMLDivElement>> = styled.div`
   width: 400px;
   height: 300px;
+  display: flex;
+  .left-list {
+  }
   .page-box {
     padding: 12px 0;
   }
@@ -30,20 +34,23 @@ const RootApp = () => {
   }, [count]);
   useEffect(function () {
     const cha = new BroadcastChannel("devtool_and_kit_chn");
-    console.log('BroadcastChannel init')
+    console.log("BroadcastChannel init");
     cha.addEventListener("message", (e) => {
       console.log("BroadcastChannel", e.data);
     });
 
-    chrome.runtime.onMessage.addListener(
-        function(request, sender, sendResponse) {
-          console.log(sender.tab ?
-              "from a content script:" + sender.tab.url :
-              "from the extension");
-          if (request.greeting === "hello")
-            sendResponse({farewell: "goodbye"});
-        }
-    );
+    chrome.runtime.onMessage.addListener(function (
+      request,
+      sender,
+      sendResponse
+    ) {
+      console.log(
+        sender.tab
+          ? "from a content script:" + sender.tab.url
+          : "from the extension"
+      );
+      if (request.greeting === "hello") sendResponse({ farewell: "goodbye" });
+    });
   }, []);
 
   useEffect(() => {
@@ -111,22 +118,25 @@ const RootApp = () => {
   console.log("page ", target.key);
   return (
     <RootDiv>
-      <Menu
-        items={pageList.map((p) => {
-          return {
-            key: p.key,
-            icon: p.icon,
-            title: p.label,
-          };
-        })}
-        activeKey={activeKey}
-        onClick={(e) => {
-          setActiveKey(e.key);
-        }}
-        mode={"horizontal"}
-      />
+      <div className="left-list">
+        <Menu
+          items={pageList.map((p) => {
+            return {
+              key: p.key,
+              icon: p.icon,
+              label: p.label,
+            };
+          })}
+          activeKey={activeKey}
+          onClick={(e) => {
+            setActiveKey(e.key);
+          }}
+          mode={"vertical"}
+        />
+      </div>
       <div className={"page-box"}>
         <Page />
+        <EditorExample />
       </div>
     </RootDiv>
   );

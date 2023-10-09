@@ -1,6 +1,6 @@
 {
   "manifest_version": 3,
-
+  "author": "wanqingying",
   "name": "Chrome Extension TypeScript Starter",
   "description": "Chrome Extension, TypeScript, Visual Studio Code",
   "version": "1.0",
@@ -25,9 +25,16 @@
     "service_worker": "js/background.js"
   },
 
-  "permissions": ["storage", "cookies", "webRequest", "scripting", "activeTab"],
+  "permissions": [
+    "storage",
+    "cookies",
+    "webRequest",
+    "scripting",
+    "activeTab",
+    "declarativeNetRequest",
+    "declarativeNetRequestFeedback"
+  ],
 
   "host_permissions": ["<all_urls>"],
-
   "devtools_page": "devtools.html"
 }
